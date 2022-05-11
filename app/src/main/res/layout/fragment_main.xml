@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:id="@+id/match_container"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-
+        tools:listitem="@layout/match_item"
         />
 
     <ProgressBar

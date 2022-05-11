@@ -2,14 +2,16 @@ package com.example.sch.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sch.data.MatchItem
+import com.example.sch.databinding.MatchItemBinding
 
-class MatchAdapter : ListAdapter<MatchItem, MatchAdapter.MatchViewHolder>(){
+class MatchAdapter : ListAdapter<MatchItem, MatchAdapter.MatchViewHolder>(DiffCallback()){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MatchViewHolder {
         val binding =
-            WeatherItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            MatchItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
         return MatchViewHolder(binding)
     }
@@ -19,14 +21,29 @@ class MatchAdapter : ListAdapter<MatchItem, MatchAdapter.MatchViewHolder>(){
         holder.bind(currentItem)
     }
 
-    inner class MatchViewHolder(private val binding: WeatherItemBinding) :
+    inner class MatchViewHolder(private val binding: MatchItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(weatherItem: MatchItem) {
+        fun bind(matchItem: MatchItem) {
             binding.apply {
-                //dtField.text = formatDate(weatherItem.dt_txt)
+                beginAt.text = matchItem.begin_at
 
             }
         }
+    }
+
+    class DiffCallback : DiffUtil.ItemCallback<MatchItem>() {
+
+        override fun areItemsTheSame(
+            oldItem: MatchItem,
+            newItem: MatchItem
+        ) =
+            oldItem.id == newItem.id
+
+        override fun areContentsTheSame(
+            oldItem: MatchItem,
+            newItem: MatchItem
+        ) =
+            oldItem == newItem
     }
 }
