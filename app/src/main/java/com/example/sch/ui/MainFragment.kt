@@ -6,16 +6,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sch.R
 import com.example.sch.api.ScheduleApi
 import com.example.sch.data.MatchDataState
 import com.example.sch.data.MatchItem
 import com.example.sch.databinding.FragmentMainBinding
+import dagger.hilt.android.AndroidEntryPoint
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import java.util.concurrent.TimeUnit
 
-
+@AndroidEntryPoint
 class MainFragment : Fragment(R.layout.fragment_main) {
 
+    private val viewModel: MainFragmentViewModel by viewModels()
     private lateinit var binding: FragmentMainBinding
     private lateinit var dataState: MatchDataState
 
@@ -38,8 +44,21 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
         updateUI()
 
-        //val matchData =
-
+        viewModel.matchData
+            .subscribeOn(Schedulers.io())
+            .doOnNext {
+                matchAdapter.submitList(it)
+            }
+            .delay(250, TimeUnit.MILLISECONDS)
+            .observeOn(AndroidSchedulers.mainThread())
+            .doAfterNext {
+                dataState = if (matchAdapter.itemCount == 0)
+                    MatchDataState.EMPTYCACHE
+                else
+                    MatchDataState.SUCCESS
+                updateUI()
+            }
+            .subscribe()
 
     }
 
@@ -67,13 +86,5 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         }
     }
 
-    private fun tryToFetchSchedule() {
-        // for DB
-        val itemsToInsert = arrayListOf<MatchItem>()
 
-        val scheduleApi : ScheduleApi
-
-        // RXJAVA
-        //scheduleApi.getMatch().
-    }
 }

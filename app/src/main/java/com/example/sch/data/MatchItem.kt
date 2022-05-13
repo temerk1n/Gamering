@@ -32,7 +32,7 @@ data class MatchItem(
     val slug: String,
     val status: String,
     val streams: Streams,
-    val streams_list: List<String>,
+    val streams_list: List<Stream>,
     val tournament: Tournament,
     val tournament_id: Int,
     val videogame: Videogame,

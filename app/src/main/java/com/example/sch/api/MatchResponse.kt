@@ -5,4 +5,6 @@ import com.example.sch.data.MatchItem
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class MatchResponse(val list: List<MatchItem>) : Parcelable
+data class MatchResponse(
+    val list: List<MatchItem>
+) : Parcelable

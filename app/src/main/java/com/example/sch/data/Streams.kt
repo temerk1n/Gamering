@@ -5,7 +5,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Streams(
-    val english: String,
-    val official: String,
-    val russian: String
+    val english: English,
+    val official: Official,
+    val russian: Russian
 ) : Parcelable
