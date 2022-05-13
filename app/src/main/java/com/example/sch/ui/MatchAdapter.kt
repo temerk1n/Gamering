@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.sch.R
 import com.example.sch.data.MatchItem
 import com.example.sch.data.MatchItemSimplified
+import com.example.sch.data.formatDate
 import com.example.sch.databinding.MatchItemBinding
 import com.squareup.picasso.Picasso
 
@@ -34,6 +35,7 @@ class MatchAdapter : ListAdapter<MatchItemSimplified, MatchAdapter.MatchViewHold
             binding.apply {
                 //imageView = matchItem
                 tournamentName.text = matchItem.tournament_name
+                originalScheduledAt.text = formatDate(matchItem.original_scheduled_at)
                 firstOpponentName.text = matchItem.firstOpponentName
                 secondOpponentName.text = matchItem.secondOpponentName
                 if (matchItem.firstOpponentImageURL != null) {

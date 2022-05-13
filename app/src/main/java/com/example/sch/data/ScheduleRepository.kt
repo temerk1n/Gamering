@@ -35,6 +35,7 @@ class ScheduleRepository @Inject constructor(
                 for (matchItem in it) {
                     val newMatchItem = MatchItemSimplified(
                         tournament_name = matchItem.serie.full_name + " " + matchItem.tournament.name,
+                        original_scheduled_at = matchItem.original_scheduled_at,
                         firstOpponentName = matchItem.opponents[0].opponent.name,
                         secondOpponentName = matchItem.opponents[1].opponent.name,
                         firstOpponentImageURL = matchItem.opponents[0].opponent.image_url,

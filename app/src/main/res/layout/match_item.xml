@@ -1,92 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="4dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_margin="8dp">
+            android:layout_margin="8dp"
+            android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tournament_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/tournament_name"
                 android:ellipsize="end"
-                android:textSize="20sp"
                 android:textAlignment="center"
-                tools:text="Advanced Europe season 41 2022 Regular"/>
+                android:textSize="20sp"
+                tools:text="Advanced Europe season 41 2022 Regular" />
+
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_marginTop="8dp"
+                android:id="@+id/opponents"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:id="@+id/opponents">
+
+                android:layout_marginTop="8dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
                     android:id="@+id/firstOpponentName"
-                    android:ellipsize="end"
-                    tools:text="Natus Vincere"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:textAlignment="textStart"
-                    />
-
-                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="vs"
-                    android:textAlignment="center"
-                    app:layout_constraintStart_toEndOf="@id/firstOpponentName"
-                    app:layout_constraintEnd_toStartOf="@id/secondOpponentName"
-                    />
+                    android:ellipsize="end"
+                    android:textAlignment="textStart"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:text="Natus Vincere" />
 
                 <TextView
                     android:id="@+id/secondOpponentName"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:ellipsize="end"
-                    tools:text="G2"
                     android:textAlignment="textEnd"
+                    android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    />
+                    tools:text="G2" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp">
 
                 <ImageView
-                    android:layout_width="52dp"
-                    android:layout_height="52dp"
                     android:id="@+id/firstOpponentImage"
-                    android:layout_weight="10"/>
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="10"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/vs_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="vs"
+                    android:textAlignment="center"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
-                    android:layout_width="52dp"
-                    android:layout_height="52dp"
                     android:id="@+id/secondOpponentImage"
-                    android:layout_weight="10"/>
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="10"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-
+            <TextView
+                android:id="@+id/original_scheduled_at"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                tools:text="2020" />
 
         </LinearLayout>
+
     </androidx.cardview.widget.CardView>
 
 </LinearLayout>
