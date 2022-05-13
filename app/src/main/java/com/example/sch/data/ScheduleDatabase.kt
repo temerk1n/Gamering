@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 import javax.inject.Inject
 import javax.inject.Provider
 
-@Database(entities = [MatchItemSimplified::class], version = 10)
+@Database(entities = [MatchItemSimplified::class], version = 11)
 abstract class ScheduleDatabase : RoomDatabase() {
 
     abstract fun scheduleDao() : ScheduleDao

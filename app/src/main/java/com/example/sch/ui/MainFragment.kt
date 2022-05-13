@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.sch.R
 import com.example.sch.api.ScheduleApi
 import com.example.sch.data.MatchDataState
@@ -29,6 +30,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         super.onViewCreated(view, savedInstanceState)
 
         binding = FragmentMainBinding.bind(view)
+
+
 
         dataState = MatchDataState.LOADING
 
@@ -60,8 +63,11 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             }
             .subscribe()
 
+        binding.root.setOnRefreshListener {
+            updateUI()
+            binding.root.isRefreshing = false
+        }
     }
-
 
 
     private fun updateUI() {
