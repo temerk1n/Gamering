@@ -17,6 +17,6 @@ data class Game(
     val position: Int,
     val status: String,
     val video_url: String,
-    val winner: String,
+    val winner: Winner,
     val winner_type: String
 ) : Parcelable

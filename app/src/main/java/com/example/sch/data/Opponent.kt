@@ -5,6 +5,6 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Opponent(
-    val opponent: String,
+    val opponent: OpponentX,
     val type: String
 ) : Parcelable
