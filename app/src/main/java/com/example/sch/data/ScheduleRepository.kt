@@ -22,13 +22,11 @@ class ScheduleRepository @Inject constructor(
     }
 
     @SuppressLint("CheckResult")
-    private fun tryToFetchSchedule() {
+    private fun tryToFetchSchedule(per_page: String = "20", page: String = "1") {
         // for DB
         val receivedItems = arrayListOf<MatchItemSimplified>()
         //Log.d("My", "getMatch call")
         // RXJAVA
-        val per_page = "20"
-        val page = "1"
 
         var tournament_name :String
         var original_scheduled_at : String
@@ -41,6 +39,7 @@ class ScheduleRepository @Inject constructor(
             Schedulers.io())
             .doOnNext {
                 for (matchItem in it) {
+                    // Заполнение полей
                     tournament_name = matchItem.serie.full_name + " " + matchItem.tournament.name
                     original_scheduled_at = matchItem.original_scheduled_at
                     if (matchItem.opponents.isNotEmpty()) {
@@ -54,6 +53,7 @@ class ScheduleRepository @Inject constructor(
                         firstOpponentImageURL = "null"
                         secondOpponentImageURL = "null"
                     }
+                    // Создание нового объекта матча
                     val newMatchItem = MatchItemSimplified(
                         tournament_name = tournament_name,
                         original_scheduled_at = original_scheduled_at,
@@ -62,11 +62,13 @@ class ScheduleRepository @Inject constructor(
                         firstOpponentImageURL = firstOpponentImageURL,
                         secondOpponentImageURL = secondOpponentImageURL,
                     )
+                    // Добавление объекта матча в список receivedItems
                     receivedItems.add(newMatchItem)
                 }
             }
             .subscribe({
                 clearCache()
+                // Добавление объектов матчей в базу данных
                 for (matchItem in receivedItems)
                     scheduleDao.insert(matchItem)
             }, {e -> e.printStackTrace()})

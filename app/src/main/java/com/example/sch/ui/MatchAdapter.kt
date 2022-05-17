@@ -32,6 +32,7 @@ class MatchAdapter : ListAdapter<MatchItemSimplified, MatchAdapter.MatchViewHold
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(matchItem: MatchItemSimplified) {
+            // Запись полей объекта матча в textView и imageView
             binding.apply {
                 //imageView = matchItem
                 tournamentName.text = matchItem.tournament_name

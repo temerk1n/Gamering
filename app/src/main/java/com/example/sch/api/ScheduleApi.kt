@@ -12,5 +12,9 @@ interface ScheduleApi {
     }
     // Как добавить параметры запроса?
     @GET("upcoming?")
-    fun getMatch(@Query("page") page : String, @Query("per_page") per_page : String, @Query("token") token: String) : io.reactivex.Observable<List<MatchItem>>
+    fun getMatch(
+        @Query("page") page : String,
+        @Query("per_page") per_page : String,
+        @Query("token") token: String
+    ) : io.reactivex.Observable<List<MatchItem>>
 }
