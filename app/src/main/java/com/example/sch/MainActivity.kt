@@ -1,5 +1,6 @@
 package com.example.sch
 
+import android.content.ClipData
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -15,6 +16,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.sch.databinding.ActivityMainBinding
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import java.nio.file.Files.find
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -22,6 +24,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     private lateinit var binding: ActivityMainBinding
     private lateinit var appBarConfiguration : AppBarConfiguration
+    private  lateinit var filtersMenuItem : MenuItem
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +46,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
+
+        filtersMenuItem = menu.findItem(R.id.action_filters);
         return true
     }
     // Toolbar
@@ -50,10 +55,10 @@ class MainActivity : AppCompatActivity() {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-
         when (item.itemId) {
             R.id.action_filters -> {
                 navController.navigate(R.id.action_mainFragment_to_filtersFragment)
+                filtersMenuItem.isVisible = false // скрытие кнопки Filters при переходе на фрагмент FiltersFragment
             }
         }
 
