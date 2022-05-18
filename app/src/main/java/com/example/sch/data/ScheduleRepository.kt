@@ -14,6 +14,7 @@ class ScheduleRepository @Inject constructor(
 
     fun getSchedule(): io.reactivex.Observable<List<MatchItemSimplified>> {
         tryToFetchSchedule()
+
         return scheduleDao.loadScheduleFromDB()
     }
 
@@ -22,14 +23,14 @@ class ScheduleRepository @Inject constructor(
     }
 
     @SuppressLint("CheckResult")
-    private fun tryToFetchSchedule(per_page: String = "20", page: String = "1") {
+    private fun tryToFetchSchedule(per_page: String = "30", page: String = "1") {
         // for DB
         val receivedItems = arrayListOf<MatchItemSimplified>()
         //Log.d("My", "getMatch call")
         // RXJAVA
 
         var tournament_name :String
-        var original_scheduled_at : String
+        var scheduled_at : String
         var firstOpponentName : String
         var secondOpponentName : String
         var firstOpponentImageURL : String
@@ -41,7 +42,7 @@ class ScheduleRepository @Inject constructor(
                 for (matchItem in it) {
                     // Заполнение полей
                     tournament_name = matchItem.serie.full_name + " " + matchItem.tournament.name
-                    original_scheduled_at = matchItem.original_scheduled_at
+                    scheduled_at = matchItem.scheduled_at
                     if (matchItem.opponents.isNotEmpty()) {
                         firstOpponentName = matchItem.opponents[0].opponent.name
                         secondOpponentName = matchItem.opponents[1].opponent.name
@@ -54,9 +55,13 @@ class ScheduleRepository @Inject constructor(
                         secondOpponentImageURL = "null"
                     }
                     // Создание нового объекта матча
+                    val array : MutableList<String> = formatDate(scheduled_at)
                     val newMatchItem = MatchItemSimplified(
                         tournament_name = tournament_name,
-                        original_scheduled_at = original_scheduled_at,
+                        month = array[0],
+                        monthDay = array[1],
+                        hour = array[2],
+                        minute = array[3],
                         firstOpponentName = firstOpponentName,
                         secondOpponentName = secondOpponentName,
                         firstOpponentImageURL = firstOpponentImageURL,

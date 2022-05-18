@@ -11,6 +11,7 @@ import com.example.sch.R
 import com.example.sch.data.MatchItem
 import com.example.sch.data.MatchItemSimplified
 import com.example.sch.data.formatDate
+import com.example.sch.data.formatDateToShow
 import com.example.sch.databinding.MatchItemBinding
 import com.squareup.picasso.Picasso
 
@@ -31,12 +32,19 @@ class MatchAdapter : ListAdapter<MatchItemSimplified, MatchAdapter.MatchViewHold
     inner class MatchViewHolder(private val binding: MatchItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+
+
         fun bind(matchItem: MatchItemSimplified) {
+            val array : MutableList<String> = mutableListOf()
+            array.add(matchItem.month)
+            array.add(matchItem.monthDay)
+            array.add(matchItem.hour)
+            array.add(matchItem.minute)
             // Запись полей объекта матча в textView и imageView
             binding.apply {
                 //imageView = matchItem
                 tournamentName.text = matchItem.tournament_name
-                originalScheduledAt.text = formatDate(matchItem.original_scheduled_at)
+                originalScheduledAt.text = formatDateToShow(array)
                 firstOpponentName.text = matchItem.firstOpponentName
                 secondOpponentName.text = matchItem.secondOpponentName
                 if (matchItem.firstOpponentImageURL != "null") {

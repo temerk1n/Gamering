@@ -1,6 +1,7 @@
 package com.example.sch.data
 
 import android.os.Parcelable
+import androidx.room.TypeConverters
 import kotlinx.parcelize.Parcelize
 
 @Parcelize

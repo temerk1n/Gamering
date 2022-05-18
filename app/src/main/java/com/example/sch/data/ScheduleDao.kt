@@ -1,9 +1,6 @@
 package com.example.sch.data
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import io.reactivex.Observable
 
 
@@ -12,6 +9,12 @@ interface ScheduleDao {
 
     @Query("SELECT * FROM schedule_table")
     fun loadScheduleFromDB() : Observable<List<MatchItemSimplified>>
+
+    @Query("SELECT * FROM schedule_table WHERE month >= :month AND monthDay >= :monthDay")
+    fun loadByDateFromDB(
+        month : String?,
+        monthDay : String?
+    ) : Observable<List<MatchItemSimplified>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(matchItemSimplified: MatchItemSimplified)

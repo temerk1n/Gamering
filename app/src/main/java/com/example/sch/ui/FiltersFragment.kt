@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import com.example.sch.databinding.FragmentFiltersBinding
 import java.util.*
 
@@ -20,6 +21,8 @@ class FiltersFragment : Fragment() {
     private lateinit var currentDateTime : String
     private var dateAndTime = Calendar.getInstance()
     private lateinit var datePickerDialog: DatePickerDialog
+
+    private var dateArray : MutableList<String> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,17 +37,22 @@ class FiltersFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentFiltersBinding.inflate(inflater, container, false)
 
-        setInitialDateTime()
+        val model : FiltersFragmentViewModel = ViewModelProviders.of(requireActivity())[FiltersFragmentViewModel::class.java]
 
+        setInitialDateTime()
+        // Actions with calendar
         binding.datePickerActions.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
-                setDate()
+                dateArray = setDate()
+                model.select(dateArray)
             }
         })
+
+
         return binding.root
     }
 
-    fun setDate() {
+    fun setDate(): MutableList<String> {
         context?.let {
             DatePickerDialog(
                 it, dateHandler,
@@ -54,6 +62,10 @@ class FiltersFragment : Fragment() {
             )
                 .show()
         }
+        var dateArr : MutableList<String> = mutableListOf()
+        dateArr.add(dateAndTime.get(Calendar.MONTH).toString())
+        dateArr.add(dateAndTime.get(Calendar.DAY_OF_MONTH).toString())
+        return dateArr
     }
 
     private fun setInitialDateTime() {
