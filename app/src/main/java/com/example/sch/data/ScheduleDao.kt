@@ -7,6 +7,8 @@ import io.reactivex.Observable
 @Dao
 interface ScheduleDao {
 
+
+
     @Query("SELECT * FROM schedule_table")
     fun loadScheduleFromDB() : Observable<List<MatchItemSimplified>>
 

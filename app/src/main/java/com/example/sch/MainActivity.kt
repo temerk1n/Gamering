@@ -23,8 +23,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration : AppBarConfiguration
     private  lateinit var filtersMenuItem : MenuItem
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -40,14 +38,17 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(navController.graph)
 
         setupActionBarWithNavController(navController, appBarConfiguration)
+
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
 
-        filtersMenuItem = menu.findItem(R.id.action_filters);
+        filtersMenuItem = menu.findItem(R.id.action_filters)
+
         return true
     }
     // Toolbar
@@ -58,8 +59,9 @@ class MainActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.action_filters -> {
                 navController.navigate(R.id.action_mainFragment_to_filtersFragment)
-                filtersMenuItem.isVisible = false // скрытие кнопки Filters при переходе на фрагмент FiltersFragment
+                filtersMenuItem.isVisible = true // скрытие кнопки Filters при переходе на фрагмент FiltersFragment
             }
+
         }
 
         return super.onOptionsItemSelected(item)

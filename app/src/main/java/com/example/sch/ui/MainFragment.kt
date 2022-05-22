@@ -25,9 +25,9 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private lateinit var binding: FragmentMainBinding
     private lateinit var dataState: MatchDataState
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
 
         binding = FragmentMainBinding.bind(view)
 
@@ -45,27 +45,24 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
         updateUI()
 
-
-        val sharedPreferences = context?.getSharedPreferences("key_value", Context.MODE_PRIVATE)
-        val editor: SharedPreferences.Editor? = sharedPreferences?.edit()
         val dateArray : MutableList<String> = mutableListOf()
+        if (this.requireArguments().size() != 0) {
+            dateArray.clear()
+            dateArray.add(this.arguments?.getString("month").toString())
+            dateArray.add(this.arguments?.getString("dayOfMonth").toString())
 
+            if (dateArray.isNotEmpty()) {
+                viewModel.date.add(dateArray[0])
+                viewModel.date.add(dateArray[1])
+                viewModel.updateMatches()
+            }
+        }
+            Log.d("observe", "2")
+        Log.d("args", this.arguments.toString())
 
         viewModel.matchData
             .subscribeOn(Schedulers.io())
             .doOnNext {
-                val month = sharedPreferences?.getString("MONTH_KEY", null)
-                val monthDay = sharedPreferences?.getString("MONTH_DAY_KEY", null)
-                if (month != null) {
-                    dateArray.add(month)
-                    viewModel.date.add(month)
-                }
-                if (monthDay != null) {
-                    dateArray.add(monthDay)
-                    viewModel.date.add(monthDay)
-                }
-                Log.d("Main", dateArray[0])
-                Log.d("Main", dateArray[1])
                 matchAdapter.submitList(it)
             }
             .delay(250, TimeUnit.MILLISECONDS)
@@ -85,10 +82,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-
-    }
 
     private fun updateUI() {
         binding.apply {
@@ -111,12 +104,5 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             }
         }
     }
-
-    private fun init() {
-        //sharedPreferences = activity?.getSharedPreferences("date", Context.MODE_PRIVATE)!!
-
-
-    }
-
 
 }

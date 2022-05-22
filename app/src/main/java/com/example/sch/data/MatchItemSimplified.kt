@@ -6,7 +6,6 @@ import androidx.room.TypeConverters
 import java.time.Month
 
 @Entity(tableName = "schedule_table")
-//@TypeConverters(DateConverter::class)
 data class MatchItemSimplified (
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
 
