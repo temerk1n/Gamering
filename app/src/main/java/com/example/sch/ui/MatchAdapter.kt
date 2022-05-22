@@ -47,12 +47,16 @@ class MatchAdapter : ListAdapter<MatchItemSimplified, MatchAdapter.MatchViewHold
                 originalScheduledAt.text = formatDateToShow(array)
                 firstOpponentName.text = matchItem.firstOpponentName
                 secondOpponentName.text = matchItem.secondOpponentName
-                if (matchItem.firstOpponentImageURL != "null") {
+                if (matchItem.firstOpponentImageURL != null) {
                     Picasso.get().load(matchItem.firstOpponentImageURL).into(firstOpponentImage)
-                } else firstOpponentImage.setImageResource(R.drawable.ic_stat_name)
-                if (matchItem.secondOpponentImageURL != "null") {
+                }
+                else {
+                    firstOpponentImage.setImageResource(R.drawable.ic_stat_name)
+                }
+                if (matchItem.secondOpponentImageURL != null) {
                     Picasso.get().load(matchItem.secondOpponentImageURL).into(secondOpponentImage)
-                } else secondOpponentImage.setImageResource(R.drawable.ic_stat_name)
+                }
+                else secondOpponentImage.setImageResource(R.drawable.ic_stat_name)
 
             }
         }

@@ -1,5 +1,8 @@
 package com.example.sch.ui
 
+import android.content.SharedPreferences
+import androidx.core.content.contentValuesOf
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProviders
 import com.example.sch.data.ScheduleRepository
@@ -10,15 +13,7 @@ import javax.inject.Inject
 class MainFragmentViewModel @Inject constructor(
     private val repository: ScheduleRepository
 ) : ViewModel() {
-
-//    private lateinit var month : String
-//    private lateinit var monthDay : String
-//    fun getParams(date : List<String>) {
-//        this.month = date[0]
-//        this.monthDay = date[1]
-//    }
-
-    val matchData = repository.getSchedule()
-
+    val date : MutableList<String> = mutableListOf()
+    val matchData = repository.getSchedule(date)
 
 }

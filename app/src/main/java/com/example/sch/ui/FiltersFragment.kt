@@ -2,13 +2,16 @@ package com.example.sch.ui
 
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.format.DateUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.fragment.app.activityViewModels
 import com.example.sch.databinding.FragmentFiltersBinding
 import java.util.*
 
@@ -17,13 +20,15 @@ import java.util.*
 class FiltersFragment : Fragment() {
 
     private lateinit var binding: FragmentFiltersBinding
+    private val viewModel : MainFragmentViewModel by activityViewModels()
 
     private lateinit var currentDateTime : String
     private var dateAndTime = Calendar.getInstance()
     private lateinit var datePickerDialog: DatePickerDialog
 
-    private var dateArray : MutableList<String> = mutableListOf()
 
+    private var dateArray : MutableList<String> = mutableListOf()
+    //private val dateArr : MutableList<String> = mutableListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -37,22 +42,33 @@ class FiltersFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentFiltersBinding.inflate(inflater, container, false)
 
-        val model : FiltersFragmentViewModel = ViewModelProviders.of(requireActivity())[FiltersFragmentViewModel::class.java]
+        //val model : FiltersFragmentViewModel = ViewModelProviders.of(requireActivity())[FiltersFragmentViewModel::class.java]
 
         setInitialDateTime()
         // Actions with calendar
-        binding.datePickerActions.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(view: View?) {
-                dateArray = setDate()
-                model.select(dateArray)
-            }
-        })
+
+        val pref: SharedPreferences? = context?.getSharedPreferences("key_value", Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor? = pref?.edit()
+        binding.datePickerActions.setOnClickListener {
+            dateArray = setDate()
+
+            Log.d("Filters", dateArray[0])
+            Log.d("Filters", dateArray[1])
+            editor?.putString("MONTH_KEY", dateArray[0])
+            editor?.putString("MONTH_DAY_KEY", dateArray[1])
+            editor?.apply()
+
+
+        }
 
 
         return binding.root
     }
 
-    fun setDate(): MutableList<String> {
+
+
+    private fun setDate() : MutableList<String> {
+        val dateArr : MutableList<String> = mutableListOf()
         context?.let {
             DatePickerDialog(
                 it, dateHandler,
@@ -61,10 +77,10 @@ class FiltersFragment : Fragment() {
                 dateAndTime.get(Calendar.DAY_OF_MONTH)
             )
                 .show()
+            dateArr.add((dateAndTime.get(Calendar.MONTH)+1).toString())
+            dateArr.add((dateAndTime.get(Calendar.DAY_OF_MONTH)).toString())
+
         }
-        var dateArr : MutableList<String> = mutableListOf()
-        dateArr.add(dateAndTime.get(Calendar.MONTH).toString())
-        dateArr.add(dateAndTime.get(Calendar.DAY_OF_MONTH).toString())
         return dateArr
     }
 
@@ -73,12 +89,12 @@ class FiltersFragment : Fragment() {
             context,
             dateAndTime.timeInMillis,
             DateUtils.FORMAT_SHOW_DATE or DateUtils.FORMAT_SHOW_YEAR
-                    or DateUtils.FORMAT_SHOW_TIME
+
         )
     }
 
     // установка обработчика выбора даты
-    var dateHandler =
+    private var dateHandler =
         OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
             dateAndTime[Calendar.YEAR] = year
             dateAndTime[Calendar.MONTH] = monthOfYear

@@ -2,6 +2,7 @@ package com.example.sch.data
 
 import android.annotation.SuppressLint
 import android.util.Log
+import android.widget.TextView
 import com.example.sch.api.ScheduleApi
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
@@ -11,11 +12,15 @@ class ScheduleRepository @Inject constructor(
     private val scheduleDao: ScheduleDao
 ) {
 
-
-    fun getSchedule(): io.reactivex.Observable<List<MatchItemSimplified>> {
+    fun getSchedule(dateArr : MutableList<String>): io.reactivex.Observable<List<MatchItemSimplified>> {
         tryToFetchSchedule()
-
-        return scheduleDao.loadScheduleFromDB()
+        if (dateArr.isNotEmpty()) {
+            Log.d("Rep", dateArr[0])
+            Log.d("Rep", dateArr[1])
+            return scheduleDao.loadByDateFromDB(dateArr[0], dateArr[1])
+        } else {
+            return scheduleDao.loadScheduleFromDB()
+        }
     }
 
     private fun clearCache() {
@@ -23,10 +28,9 @@ class ScheduleRepository @Inject constructor(
     }
 
     @SuppressLint("CheckResult")
-    private fun tryToFetchSchedule(per_page: String = "30", page: String = "1") {
+    private fun tryToFetchSchedule(per_page: String = "50", page: String = "1") {
         // for DB
         val receivedItems = arrayListOf<MatchItemSimplified>()
-        //Log.d("My", "getMatch call")
         // RXJAVA
 
         var tournament_name :String

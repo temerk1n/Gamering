@@ -1,12 +1,13 @@
 package com.example.sch.ui
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.View
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sch.R
 import com.example.sch.data.MatchDataState
@@ -16,12 +17,14 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
+
 @AndroidEntryPoint
 class MainFragment : Fragment(R.layout.fragment_main) {
 
     private val viewModel: MainFragmentViewModel by viewModels()
     private lateinit var binding: FragmentMainBinding
     private lateinit var dataState: MatchDataState
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -41,14 +44,28 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         }
 
         updateUI()
-//        val model : FiltersFragmentViewModel =
-//            ViewModelProviders.of(requireActivity()).get(FiltersFragmentViewModel::class.java)
-//        model.getSelected().observe(viewLifecycleOwner, Observer<List<String>> {
-//            model.getSelected().value?.let { it1 -> viewModel.getParams(it1) }
-//        })
+
+
+        val sharedPreferences = context?.getSharedPreferences("key_value", Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor? = sharedPreferences?.edit()
+        val dateArray : MutableList<String> = mutableListOf()
+
+
         viewModel.matchData
             .subscribeOn(Schedulers.io())
             .doOnNext {
+                val month = sharedPreferences?.getString("MONTH_KEY", null)
+                val monthDay = sharedPreferences?.getString("MONTH_DAY_KEY", null)
+                if (month != null) {
+                    dateArray.add(month)
+                    viewModel.date.add(month)
+                }
+                if (monthDay != null) {
+                    dateArray.add(monthDay)
+                    viewModel.date.add(monthDay)
+                }
+                Log.d("Main", dateArray[0])
+                Log.d("Main", dateArray[1])
                 matchAdapter.submitList(it)
             }
             .delay(250, TimeUnit.MILLISECONDS)
@@ -68,6 +85,10 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+    }
 
     private fun updateUI() {
         binding.apply {
@@ -89,6 +110,12 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                 }
             }
         }
+    }
+
+    private fun init() {
+        //sharedPreferences = activity?.getSharedPreferences("date", Context.MODE_PRIVATE)!!
+
+
     }
 
 

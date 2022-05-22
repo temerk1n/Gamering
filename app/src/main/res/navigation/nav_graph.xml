@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_mainFragment_to_filtersFragment"
             app:destination="@id/filtersFragment" />
+        <argument
+            android:name="dateArr"
+            app:argType="string[]" />
     </fragment>
     <fragment
         android:id="@+id/filtersFragment"
