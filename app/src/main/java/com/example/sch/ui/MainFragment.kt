@@ -31,8 +31,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
         binding = FragmentMainBinding.bind(view)
 
-
-
         dataState = MatchDataState.LOADING
 
         val matchAdapter = MatchAdapter()

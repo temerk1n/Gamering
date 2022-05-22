@@ -10,7 +10,7 @@ interface ScheduleApi {
         const val BASE_URL = "https://api.pandascore.co/csgo/matches/"
         const val TOKEN = "3h61HhqgXtzHJRW_txM5kVyeye2pS8dwkzgwXtTvcqZjkoEE-Eo"
     }
-    // Как добавить параметры запроса?
+
     @GET("upcoming?")
     fun getMatch(@Query("page") page : String, @Query("per_page") per_page : String, @Query("token") token: String) : io.reactivex.Observable<List<MatchItem>>
 }

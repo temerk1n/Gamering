@@ -35,7 +35,7 @@ class MatchAdapter : ListAdapter<MatchItemSimplified, MatchAdapter.MatchViewHold
             binding.apply {
                 //imageView = matchItem
                 tournamentName.text = matchItem.tournament_name
-                originalScheduledAt.text = formatDate(matchItem.original_scheduled_at)
+                originalScheduledAt.text = formatDate(matchItem.scheduled_at)
                 firstOpponentName.text = matchItem.firstOpponentName
                 secondOpponentName.text = matchItem.secondOpponentName
                 if (matchItem.firstOpponentImageURL != "null") {
