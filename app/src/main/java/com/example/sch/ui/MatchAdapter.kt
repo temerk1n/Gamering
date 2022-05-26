@@ -11,6 +11,7 @@ import com.example.sch.R
 import com.example.sch.data.MatchItem
 import com.example.sch.data.MatchItemSimplified
 import com.example.sch.data.formatDate
+import com.example.sch.data.formatDateToShow
 import com.example.sch.databinding.MatchItemBinding
 import com.squareup.picasso.Picasso
 
@@ -32,16 +33,21 @@ class MatchAdapter : ListAdapter<MatchItemSimplified, MatchAdapter.MatchViewHold
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(matchItem: MatchItemSimplified) {
+            val array : MutableList<String> = mutableListOf()
+            array.add(matchItem.month)
+            array.add(matchItem.monthDay)
+            array.add(matchItem.hour)
+            array.add(matchItem.minute)
             binding.apply {
                 //imageView = matchItem
                 tournamentName.text = matchItem.tournament_name
-                originalScheduledAt.text = formatDate(matchItem.scheduled_at)
+                originalScheduledAt.text = formatDateToShow(array)
                 firstOpponentName.text = matchItem.firstOpponentName
                 secondOpponentName.text = matchItem.secondOpponentName
-                if (matchItem.firstOpponentImageURL != "null") {
+                if (matchItem.firstOpponentImageURL != null) {
                     Picasso.get().load(matchItem.firstOpponentImageURL).into(firstOpponentImage)
                 } else firstOpponentImage.setImageResource(R.drawable.ic_stat_name)
-                if (matchItem.secondOpponentImageURL != "null") {
+                if (matchItem.secondOpponentImageURL != null) {
                     Picasso.get().load(matchItem.secondOpponentImageURL).into(secondOpponentImage)
                 } else secondOpponentImage.setImageResource(R.drawable.ic_stat_name)
 

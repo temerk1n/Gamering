@@ -8,7 +8,11 @@ data class MatchItemSimplified (
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
 
     val tournament_name : String,
-    val scheduled_at : String,
+    //val scheduled_at : String,
+    val month: String,
+    val monthDay : String,
+    val hour : String,
+    val minute : String,
     val firstOpponentName : String,
     val secondOpponentName : String,
     val firstOpponentImageURL: String?,

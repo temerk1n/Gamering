@@ -9,10 +9,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="primary">##a7c8ff</color>
+    <color name="primary">#4F8AEC</color>
     <color name="on_primary">#003064</color>
+    <color name="on_primary_night_theme">#00162E</color>
     <color name="primary_container">#00468d</color>
     <color name="secondary">#302e42</color>
-    <color name="on_secondary"></color>
-    <color name="secondary_container"></color>
 </resources>

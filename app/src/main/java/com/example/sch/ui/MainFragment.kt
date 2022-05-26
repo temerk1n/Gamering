@@ -45,6 +45,22 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
         updateUI()
 
+//        val dateArray : MutableList<String> = mutableListOf()
+//        if (!this.requireArguments().isEmpty) {
+//            if (this.requireArguments().size() != 0) {
+//                dateArray.clear()
+//                dateArray.add(this.arguments?.getString("month").toString())
+//                dateArray.add(this.arguments?.getString("dayOfMonth").toString())
+//
+//                if (dateArray.isNotEmpty()) {
+//                    viewModel.date.add(dateArray[0])
+//                    viewModel.date.add(dateArray[1])
+//                    viewModel.updateMatches()
+//                }
+//            }
+//        }
+
+
         viewModel.matchData
             .subscribeOn(Schedulers.io())
             .doOnNext {

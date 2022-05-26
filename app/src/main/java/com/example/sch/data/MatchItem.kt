@@ -37,6 +37,6 @@ data class MatchItem(
     val tournament_id: Int,
     val videogame: Videogame,
     val videogame_version: String,
-    val winner: String,
+    val winner: Boolean,
     val winner_id: String
 ) : Parcelable

@@ -1,6 +1,7 @@
 package com.example.sch.data
 
 import android.annotation.SuppressLint
+import android.util.Log
 import com.example.sch.api.ScheduleApi
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
@@ -11,9 +12,29 @@ class ScheduleRepository @Inject constructor(
 ) {
 
 
-    fun getSchedule(): io.reactivex.Observable<List<MatchItemSimplified>> {
+    fun getSchedule(dateArr : MutableList<String>): io.reactivex.Observable<List<MatchItemSimplified>> {
         tryToFetchSchedule()
-        return scheduleDao.loadScheduleFromDB()
+        Log.d("observe", '1'.toString())
+        if (dateArr.isNotEmpty()) {
+            Log.d("Rep", dateArr[0])
+            Log.d("Rep", dateArr[1])
+            var month : String
+            var dayOfMonth : String
+            if (dateArr[0].length == 1) {
+                month = "0${dateArr[0]}"
+            } else {
+                month = dateArr[0]
+            }
+            if (dateArr[1].length == 1) {
+                dayOfMonth = "0${dateArr[1]}"
+            }
+            else {
+                dayOfMonth = dateArr[1]
+            }
+            return scheduleDao.loadByDateFromDB(month, dayOfMonth)
+        } else {
+            return scheduleDao.loadScheduleFromDB()
+        }
     }
 
     private fun clearCache() {
@@ -44,18 +65,22 @@ class ScheduleRepository @Inject constructor(
                     scheduled_at = matchItem.scheduled_at
                     if (matchItem.opponents.isNotEmpty()) {
                         firstOpponentName = matchItem.opponents[0].opponent.name
-                        secondOpponentName = matchItem.opponents[1].opponent.name
+                        secondOpponentName = if (matchItem.opponents.size > 1) matchItem.opponents[1].opponent.name else "TBD"
                         firstOpponentImageURL = matchItem.opponents[0].opponent.image_url
-                        secondOpponentImageURL = matchItem.opponents[1].opponent.image_url
+                        secondOpponentImageURL = if (matchItem.opponents.size > 1) matchItem.opponents[1].opponent.image_url else "null"
                     } else {
                         firstOpponentName = "TBD"
                         secondOpponentName = "TBD"
                         firstOpponentImageURL = "null"
                         secondOpponentImageURL = "null"
                     }
+                    val array : MutableList<String> = formatDate(scheduled_at)
                     val newMatchItem = MatchItemSimplified(
                         tournament_name = tournament_name,
-                        scheduled_at = scheduled_at,
+                        month = array[0],
+                        monthDay = array[1],
+                        hour = array[2],
+                        minute = array[3],
                         firstOpponentName = firstOpponentName,
                         secondOpponentName = secondOpponentName,
                         firstOpponentImageURL = firstOpponentImageURL,
