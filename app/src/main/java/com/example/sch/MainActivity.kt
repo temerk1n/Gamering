@@ -37,6 +37,9 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.findNavController()
         appBarConfiguration = AppBarConfiguration(navController.graph)
 
+
+
+
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
@@ -59,7 +62,7 @@ class MainActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.action_filters -> {
                 navController.navigate(R.id.action_mainFragment_to_filtersFragment)
-                filtersMenuItem.isVisible = true // скрытие кнопки Filters при переходе на фрагмент FiltersFragment
+//                filtersMenuItem.isVisible = false // скрытие кнопки Filters при переходе на фрагмент FiltersFragment
             }
 
         }
